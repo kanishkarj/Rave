@@ -19,7 +19,7 @@ class VlcPlayer :
 
         self.connectControllers()
         self.setUI();
-
+        
 
     def connectControllers(self):
         self.mainWindow.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
@@ -31,6 +31,19 @@ class VlcPlayer :
         
 
     def setUI(self):
+
+        self.window.playState.setIcon(QtGui.QIcon('icons/svg/play-2.svg'))
+        self.window.playState.setIconSize(QtCore.QSize(65,65))
+        self.window.playState.setStyleSheet ('background-color:transparent;')
+
+        self.window.previous.setIcon(QtGui.QIcon('icons/svg/backward-3.svg'))
+        self.window.previous.setIconSize(QtCore.QSize(50,50))
+        self.window.previous.setStyleSheet ('background-color:transparent;')
+
+        self.window.next.setIcon(QtGui.QIcon('icons/svg/forward-2.svg'))
+        self.window.next.setIconSize(QtCore.QSize(50,50))
+        self.window.next.setStyleSheet ('background-color:transparent;')
+
         self.window.palette = self.window.mediaView.palette()
         self.window.palette.setColor(QtGui.QPalette.Window,QtGui.QColor(7,54,66))
         self.window.mediaView.setPalette(self.window.palette)
@@ -53,14 +66,14 @@ class VlcPlayer :
 
         if self.mediaPlayer.is_playing():
             self.mediaPlayer.pause()
-            self.window.playState.setText("Play")
+            self.window.playState.setIcon(QtGui.QIcon('icons/svg/play-2.svg'))
             self.isPaused = True
         else:
             if self.mediaPlayer.play() == -1:
                 self.OpenFile()
                 return
             self.mediaPlayer.play()
-            self.window.playState.setText("Pause")
+            self.window.playState.setIcon(QtGui.QIcon('icons/svg/pause-2.svg'))
             self.timer.start()
             self.isPaused = False
 
