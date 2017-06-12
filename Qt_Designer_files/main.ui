@@ -360,7 +360,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>25</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -368,6 +368,7 @@
      <string>&amp;Media</string>
     </property>
     <addaction name="actionOpen_File"/>
+    <addaction name="actionOpen_Multiple_Files"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -389,6 +390,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionOpen_Multiple_Files">
+   <property name="text">
+    <string>Open Multiple Files</string>
    </property>
   </action>
  </widget>

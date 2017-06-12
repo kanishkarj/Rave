@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.gridLayout_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 764, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 764, 28))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -165,7 +165,10 @@ class Ui_MainWindow(object):
         self.actionOpen_File.setObjectName(_fromUtf8("actionOpen_File"))
         self.actionExit = QtGui.QAction(MainWindow)
         self.actionExit.setObjectName(_fromUtf8("actionExit"))
+        self.actionOpen_Multiple_Files = QtGui.QAction(MainWindow)
+        self.actionOpen_Multiple_Files.setObjectName(_fromUtf8("actionOpen_Multiple_Files"))
         self.menuFile.addAction(self.actionOpen_File)
+        self.menuFile.addAction(self.actionOpen_Multiple_Files)
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
 
@@ -181,6 +184,7 @@ class Ui_MainWindow(object):
         self.actionOpen_File.setShortcut(_translate("MainWindow", "Ctrl+O", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q", None))
+        self.actionOpen_Multiple_Files.setText(_translate("MainWindow", "Open Multiple Files", None))
 
 
 if __name__ == "__main__":
