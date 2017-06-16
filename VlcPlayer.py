@@ -10,7 +10,7 @@ from playlist_design import Ui_playlist
 class VlcPlayer(QtGui.QMainWindow):
     resized = QtCore.pyqtSignal()
 
-    def  __init__(self, parent=None):
+    def  __init__(self,param_app, parent=None):
         super(VlcPlayer, self).__init__(parent=parent)
         self.window = Ui_MainWindow()
         self.window.setupUi(self)
@@ -30,18 +30,23 @@ class VlcPlayer(QtGui.QMainWindow):
         self.playlist.window=Ui_playlist()
         self.playlist.window.setupUi(self.playlist)
         self.mList=[]
+        self.app = param_app
+        self.window.centralwidget.setMouseTracking(True)
+
+    def mouseMoveEvent(self, event):
+        print ('mouseMoveEvent: x=%d, y=%d' % (event.x(), event.y()))
 
     def resizeEvent(self, event):
         self.resized.emit()
         return super(VlcPlayer, self).resizeEvent(event)
 
     def windowResized(self):
-        cvHeight = 130
-        mvMinHeight = 200
-        self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
-        self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
-            
-
+        if self.isFullScreen() == False:
+            cvHeight = 130
+            mvMinHeight = 200
+            self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
+            self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
+        
     def connectControllers(self):
         self.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
         #self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
@@ -54,7 +59,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.fullscreenButton, QtCore.SIGNAL("clicked()"),self.toggleFullscreen)
         self.connect(self.window.volumeBar,QtCore.SIGNAL("valueChanged(int)"),self.setVolume)
         self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
-
+        
     def keyPressEvent(self,event):
         if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
             self.showMaximized()
@@ -63,17 +68,20 @@ class VlcPlayer(QtGui.QMainWindow):
             self.window.controlView.show()
 
     def mouseDoubleClickEvent(self,event):
-        if self.isFullScreen():
-            self.showMaximized() 
-            self.window.menubar.show()
-            self.window.centralwidget.setStyleSheet("")
-            self.window.controlView.show()           
-        else:
+        if self.isFullScreen()==False:
             self.showFullScreen()
             self.window.controlView.hide()
             self.window.menubar.hide()
-            self.window.centralwidget.setStyleSheet("background-color:black;")
-        
+            scr_res = self.app.desktop().screenGeometry();
+            self.window.mediaView.setGeometry(QtCore.QRect(0, 0, scr_res.width(), scr_res.height()))
+            
+        else:            
+            self.showMaximized()
+            self.window.controlView.show()
+            self.window.menubar.show()
+    
+    
+
     def setNext(self) :
         self.mediaListPlayer.next()
         #A hack to get things working
@@ -94,10 +102,13 @@ class VlcPlayer(QtGui.QMainWindow):
             self.showFullScreen()
             self.window.controlView.hide()
             self.window.menubar.hide()
-            self.window.centralwidget.setStyleSheet("background-color:black;")
+            scr_res = self.app.desktop().screenGeometry();
+            self.window.mediaView.setGeometry(QtCore.QRect(0, 0, scr_res.width(), scr_res.height()))
+            
         else:
             self.showMaximized()
-    
+            self.window.controlView.show()
+            self.window.menubar.show()
     
 
     def setUI(self):
@@ -115,7 +126,8 @@ class VlcPlayer(QtGui.QMainWindow):
         self.window.next.setIconSize(QtCore.QSize(50,50))
         self.window.next.setStyleSheet ('background-color:transparent;')
 
-       
+        self.window.mediaView.setStyleSheet("background-color:black;")
+
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
         self.window.volumeBar.setValue(self.mediaPlayer.audio_get_volume())

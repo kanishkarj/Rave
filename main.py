@@ -9,7 +9,7 @@ from VlcPlayer import VlcPlayer
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    w = VlcPlayer()
+    w = VlcPlayer(app)
     w.show()
     sys.exit(app.exec_())
 
