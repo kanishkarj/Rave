@@ -4,6 +4,7 @@ from packages.libvlc import vlc
 from PyQt4 import QtCore, QtGui
 from math import floor
 from main_design import Ui_MainWindow
+from playlist_design import Ui_playlist
 
 
 class VlcPlayer(QtGui.QMainWindow):
@@ -13,6 +14,7 @@ class VlcPlayer(QtGui.QMainWindow):
         super(VlcPlayer, self).__init__(parent=parent)
         self.window = Ui_MainWindow()
         self.window.setupUi(self)
+        self.playlist=QtGui.QDialog()
         self.resized.connect(self.windowResized)
          # creating a basic vlc instance
         self.vlcInstance = vlc.Instance()
@@ -25,23 +27,24 @@ class VlcPlayer(QtGui.QMainWindow):
         self.isFullscreen = False
         self.connectControllers()
         self.setUI()
+        self.playlist.window=Ui_playlist()
+        self.playlist.window.setupUi(self.playlist)
+        self.mList=[]
 
     def resizeEvent(self, event):
         self.resized.emit()
         return super(VlcPlayer, self).resizeEvent(event)
 
     def windowResized(self):
-
-
-            cvHeight = 130
-            mvMinHeight = 200
-            self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
-            self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
+        cvHeight = 130
+        mvMinHeight = 200
+        self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
+        self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
             
 
     def connectControllers(self):
         self.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
-        self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
+        #self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
         self.connect(self.timer, QtCore.SIGNAL("timeout()"),self.updateUI)
         self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
@@ -50,6 +53,26 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.previous, QtCore.SIGNAL("clicked()"),self.setPrevious)
         self.connect(self.window.fullscreenButton, QtCore.SIGNAL("clicked()"),self.toggleFullscreen)
         self.connect(self.window.volumeBar,QtCore.SIGNAL("valueChanged(int)"),self.setVolume)
+        self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
+
+    def keyPressEvent(self,event):
+        if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
+            self.showMaximized()
+            self.window.menubar.show()
+            self.window.centralwidget.setStyleSheet("")
+            self.window.controlView.show()
+
+    def mouseDoubleClickEvent(self,event):
+        if self.isFullScreen():
+            self.showMaximized() 
+            self.window.menubar.show()
+            self.window.centralwidget.setStyleSheet("")
+            self.window.controlView.show()           
+        else:
+            self.showFullScreen()
+            self.window.controlView.hide()
+            self.window.menubar.hide()
+            self.window.centralwidget.setStyleSheet("background-color:black;")
         
     def setNext(self) :
         self.mediaListPlayer.next()
@@ -58,7 +81,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.media = self.mediaPlayer.get_media()
         self.setWindowTitle(self.media.get_meta(0))
 
-
+    
     def setPrevious(self) :
         self.mediaListPlayer.previous()
         # A hack to get things working
@@ -67,11 +90,19 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setWindowTitle(self.media.get_meta(0))
 
     def toggleFullscreen(self):
-        self.window.centralwidget.showFullScreen()
+        if self.isFullScreen()==False:
+            self.showFullScreen()
+            self.window.controlView.hide()
+            self.window.menubar.hide()
+            self.window.centralwidget.setStyleSheet("background-color:black;")
+        else:
+            self.showMaximized()
+    
+    
 
     def setUI(self):
         
-        self.window.mediaView.setStyleSheet('background-color:blue;border-radius:1px;')
+        self.window.mediaView.setStyleSheet('background-color:black;border-radius:1px;')
         self.window.playState.setIcon(QtGui.QIcon('icons/svg/play-2.svg'))
         self.window.playState.setIconSize(QtCore.QSize(65,65))
         self.window.playState.setStyleSheet ('background-color:transparent;')
@@ -151,7 +182,7 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
 
-    def OpenMultipleFiles(self,filenames = None):
+    '''def OpenMultipleFiles(self,filenames = None):
         if filenames is None:
             filenames = QtGui.QFileDialog.getOpenFileNames(self, "Open File", os.path.expanduser('~'))
         if not filenames:
@@ -162,9 +193,9 @@ class VlcPlayer(QtGui.QMainWindow):
         if sys.version < '3':
             for i in range(0,len(filenames),1) :
                 filenames[i] = unicode(filenames[i])
-        '''for mPath in filenames :
+        for mPath in filenames :
             mList.append(self.vlcInstance.media_new(mPath))
-           ''' 
+            
         self.mediaList = self.vlcInstance.media_list_new(filenames)
         # put the media in the media player
         self.mediaListPlayer.set_media_list(self.mediaList)
@@ -196,7 +227,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setPlayPause()
         self.setPlayPause()
         self.mediaPlayer.play()
-        self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
+        self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))'''
         
     def stringTimeFormat(self,time) :
         strng = "00:00:00"
@@ -239,3 +270,40 @@ class VlcPlayer(QtGui.QMainWindow):
         self.window.timeDone.setText(self.stringTimeFormat(int(self.media.get_duration() * self.mediaPlayer.get_position())))
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
 
+    def showPlaylist(self):
+        self.playlist.show()
+        self.playlist.connect(self.playlist.window.listAdd,QtCore.SIGNAL("clicked()"),self.addtoPlaylist)
+
+    def addtoPlaylist(self,filenames=None):
+        if filenames is None:
+            filenames = QtGui.QFileDialog.getOpenFileNames(self, "Open File", os.path.expanduser('~'))
+        if not filenames:
+            return
+        for file in filenames:
+            self.mList.append(file)
+        
+        self.mediaList=self.vlcInstance.media_list_new(self.mList)
+        self.playlist.window.mediaList.clear()
+        
+        for file in self.mediaList:
+           self.playlist.window.mediaList.addItem(file.get_meta(0))
+
+        self.mediaListPlayer.set_media_list(self.mediaList)
+        self.media = self.mediaList[0]
+        self.media.parse()
+        self.setWindowTitle(self.media.get_meta(0))
+        self.mediaPlayer = self.mediaListPlayer.get_media_player()
+        self.mediaPlayer.set_media(self.media)
+        self.mediaListPlayer.next()
+
+        if sys.platform.startswith('linux'): # for Linux using the X Server
+            self.mediaPlayer.set_xwindow(self.window.mediaView.winId())
+        elif sys.platform == "win32": # for Windows
+            self.mediaPlayer.set_hwnd(self.window.mediaView.winId())
+        elif sys.platform == "darwin": # for MacOS
+            self.mediaPlayer.set_nsobject(self.window.mediaView.winId())
+        self.setPlayPause()
+        self.setPlayPause()
+        self.mediaPlayer.play()
+        self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
+        
