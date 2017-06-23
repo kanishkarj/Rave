@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created by: PyQt4 UI code generator 4.12
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         self.mediaView.setFrameShadow(QtGui.QFrame.Raised)
         self.mediaView.setObjectName(_fromUtf8("mediaView"))
         self.controlView = QtGui.QFrame(self.centralwidget)
-        self.controlView.setGeometry(QtCore.QRect(30, 270, 561, 130))
+        self.controlView.setGeometry(QtCore.QRect(30, 270, 611, 130))
         self.controlView.setMinimumSize(QtCore.QSize(510, 130))
         self.controlView.setMaximumSize(QtCore.QSize(16777215, 130))
         self.controlView.setFrameShape(QtGui.QFrame.StyledPanel)
@@ -75,7 +75,6 @@ class Ui_MainWindow(object):
         self.expansionWidget_2.setSizePolicy(sizePolicy)
         self.expansionWidget_2.setObjectName(_fromUtf8("expansionWidget_2"))
         self.gridLayout_6 = QtGui.QGridLayout(self.expansionWidget_2)
-        self.gridLayout_6.setMargin(0)
         self.gridLayout_6.setObjectName(_fromUtf8("gridLayout_6"))
         self.gridLayout_3.addWidget(self.expansionWidget_2, 0, 1, 1, 1)
         self.volumeBar = QtGui.QSlider(self.controlView)
@@ -83,13 +82,12 @@ class Ui_MainWindow(object):
         self.volumeBar.setMaximumSize(QtCore.QSize(100, 16777215))
         self.volumeBar.setOrientation(QtCore.Qt.Horizontal)
         self.volumeBar.setObjectName(_fromUtf8("volumeBar"))
-        self.gridLayout_3.addWidget(self.volumeBar, 0, 4, 1, 1)
+        self.gridLayout_3.addWidget(self.volumeBar, 0, 5, 1, 1)
         self.mediaSettingsWidget = QtGui.QWidget(self.controlView)
         self.mediaSettingsWidget.setMinimumSize(QtCore.QSize(140, 60))
         self.mediaSettingsWidget.setMaximumSize(QtCore.QSize(140, 60))
         self.mediaSettingsWidget.setObjectName(_fromUtf8("mediaSettingsWidget"))
         self.horizontalLayout_4 = QtGui.QHBoxLayout(self.mediaSettingsWidget)
-        self.horizontalLayout_4.setMargin(0)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.fullscreenButton = QtGui.QPushButton(self.mediaSettingsWidget)
         self.fullscreenButton.setMinimumSize(QtCore.QSize(30, 30))
@@ -121,7 +119,6 @@ class Ui_MainWindow(object):
         self.mediaControlWidget.setMaximumSize(QtCore.QSize(195, 70))
         self.mediaControlWidget.setObjectName(_fromUtf8("mediaControlWidget"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout(self.mediaControlWidget)
-        self.horizontalLayout_5.setMargin(0)
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
         self.previous = QtGui.QPushButton(self.mediaControlWidget)
         self.previous.setMinimumSize(QtCore.QSize(40, 40))
@@ -152,6 +149,12 @@ class Ui_MainWindow(object):
         self.expansionWidget.setSizePolicy(sizePolicy)
         self.expansionWidget.setObjectName(_fromUtf8("expansionWidget"))
         self.gridLayout_3.addWidget(self.expansionWidget, 0, 3, 1, 1)
+        self.muteButton = QtGui.QPushButton(self.controlView)
+        self.muteButton.setMinimumSize(QtCore.QSize(30, 30))
+        self.muteButton.setMaximumSize(QtCore.QSize(30, 30))
+        self.muteButton.setText(_fromUtf8(""))
+        self.muteButton.setObjectName(_fromUtf8("muteButton"))
+        self.gridLayout_3.addWidget(self.muteButton, 0, 4, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -185,14 +188,4 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q", None))
         self.actionOpen_Multiple_Files.setText(_translate("MainWindow", "Open Multiple Files", None))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 

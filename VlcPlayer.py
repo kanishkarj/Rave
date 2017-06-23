@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 from math import floor
 from main_design import Ui_MainWindow
 from playlist_design import Ui_playlist
-
+import urllib.request
 
 class VlcPlayer(QtGui.QMainWindow):
     resized = QtCore.pyqtSignal()
@@ -32,9 +32,8 @@ class VlcPlayer(QtGui.QMainWindow):
         self.mList=[]
         self.app = param_app
         self.window.centralwidget.setMouseTracking(True)
-
-    def mouseMoveEvent(self, event):
-        print ('mouseMoveEvent: x=%d, y=%d' % (event.x(), event.y()))
+        self.window.volumeBar.setValue(50)
+        self.setVolume(50)
 
     def resizeEvent(self, event):
         self.resized.emit()
@@ -59,13 +58,21 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.fullscreenButton, QtCore.SIGNAL("clicked()"),self.toggleFullscreen)
         self.connect(self.window.volumeBar,QtCore.SIGNAL("valueChanged(int)"),self.setVolume)
         self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
-        
+        self.connect(self.window.stopButton,QtCore.SIGNAL("clicked()"),self.stopPlayer)
+        self.connect(self.window.muteButton,QtCore.SIGNAL("clicked()"),self.toggleMute)
+    
     def keyPressEvent(self,event):
         if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
             self.showMaximized()
             self.window.menubar.show()
             self.window.centralwidget.setStyleSheet("")
             self.window.controlView.show()
+        if event.key()==QtCore.Qt.Key_F:
+            self.toggleFullscreen()
+        if event.key()==QtCore.Qt.Key_M:
+            self.toggleMute()
+        if event.key()==QtCore.Qt.Key_Space:
+            self.setPlayPause()
 
     def mouseDoubleClickEvent(self,event):
         if self.isFullScreen()==False:
@@ -114,19 +121,30 @@ class VlcPlayer(QtGui.QMainWindow):
     def setUI(self):
         
         self.window.mediaView.setStyleSheet('background-color:black;border-radius:1px;')
-        self.window.playState.setIcon(QtGui.QIcon('icons/svg/play-2.svg'))
-        self.window.playState.setIconSize(QtCore.QSize(65,65))
+        
+        self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
+        self.window.playState.setIconSize(QtCore.QSize(50,50))
         self.window.playState.setStyleSheet ('background-color:transparent;')
         
-        self.window.previous.setIcon(QtGui.QIcon('icons/svg/backward-3.svg'))
-        self.window.previous.setIconSize(QtCore.QSize(50,50))
+        self.window.previous.setIcon(QtGui.QIcon('icons/svg/IconSet2/previous.svg'))
+        self.window.previous.setIconSize(QtCore.QSize(40,40))
         self.window.previous.setStyleSheet ('background-color:transparent;')
 
-        self.window.next.setIcon(QtGui.QIcon('icons/svg/forward-2.svg'))
-        self.window.next.setIconSize(QtCore.QSize(50,50))
+        self.window.next.setIcon(QtGui.QIcon('icons/svg/IconSet2/next.svg'))
+        self.window.next.setIconSize(QtCore.QSize(40,40))
         self.window.next.setStyleSheet ('background-color:transparent;')
 
-        self.window.mediaView.setStyleSheet("background-color:black;")
+        self.window.fullscreenButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/fullscreen.svg'))
+        self.window.fullscreenButton.setIconSize(QtCore.QSize(20,20))
+        self.window.fullscreenButton.setStyleSheet ('background-color:transparent;')
+
+        self.window.playlistButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/playlist.svg'))
+        self.window.playlistButton.setIconSize(QtCore.QSize(30,30))
+        self.window.playlistButton.setStyleSheet ('background-color:transparent;')
+
+        self.window.stopButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/stop.svg'))
+        self.window.stopButton.setIconSize(QtCore.QSize(30,30))
+        self.window.stopButton.setStyleSheet ('background-color:transparent;')
 
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
@@ -144,20 +162,32 @@ class VlcPlayer(QtGui.QMainWindow):
     def setPlayPause(self):
         if self.mediaPlayer.is_playing():
             self.mediaPlayer.pause()
-            self.window.playState.setIcon(QtGui.QIcon('icons/svg/play.svg'))
+            self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
             self.isPaused = True
         else:
             if self.mediaPlayer.play() == -1 :
                 self.OpenFile()
                 return
             self.mediaPlayer.play()
-            self.window.playState.setIcon(QtGui.QIcon('icons/svg/pause.svg'))
+            self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/pause.svg'))
             self.timer.start()
             self.isPaused = False
 
     def setVolume(self, volume):
         # here the factor is multiplied with 2, hence the volume is out of 200%
         self.mediaPlayer.audio_set_volume(volume*2)
+        if volume==0:
+            self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-off.svg'))
+            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
+            self.window.muteButton.setStyleSheet ('background-color:transparent;')
+        elif volume>0 and volume<=50:
+            self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-medium.svg'))
+            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
+            self.window.muteButton.setStyleSheet ('background-color:transparent;')
+        elif volume>50 and volume<=100:
+            self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-high.svg'))
+            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
+            self.window.muteButton.setStyleSheet ('background-color:transparent;')
 
     def OpenFile(self,filename = None):
         if filename is None:
@@ -277,7 +307,7 @@ class VlcPlayer(QtGui.QMainWindow):
                 # "Pause", not the desired behavior of a media player
                 # this will fix it
                 self.mediaPlayer.stop()
-                self.window.playState.setIcon(QtGui.QIcon('icons/svg/play.svg'))
+                self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
        
         self.window.timeDone.setText(self.stringTimeFormat(int(self.media.get_duration() * self.mediaPlayer.get_position())))
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
@@ -318,4 +348,14 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setPlayPause()
         self.mediaPlayer.play()
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
-        
+
+    def stopPlayer(self):
+        self.mediaPlayer.stop()
+
+    def toggleMute(self):
+        if self.mediaPlayer.audio_get_volume()!=0:
+            self.setVolume(0)
+            self.window.volumeBar.setValue(0)
+        else:
+            self.setVolume(50)
+            self.window.volumeBar.setValue(50)

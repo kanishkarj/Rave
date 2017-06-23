@@ -44,7 +44,7 @@
      <rect>
       <x>30</x>
       <y>270</y>
-      <width>561</width>
+      <width>611</width>
       <height>130</height>
      </rect>
     </property>
@@ -147,7 +147,7 @@
          <layout class="QGridLayout" name="gridLayout_6"/>
         </widget>
        </item>
-       <item row="0" column="4">
+       <item row="0" column="5">
         <widget class="QSlider" name="volumeBar">
          <property name="minimumSize">
           <size>
@@ -346,6 +346,25 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QPushButton" name="muteButton">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
