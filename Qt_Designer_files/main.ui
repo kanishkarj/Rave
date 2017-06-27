@@ -42,9 +42,9 @@
    <widget class="QFrame" name="controlView">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>270</y>
-      <width>611</width>
+      <width>631</width>
       <height>130</height>
      </rect>
     </property>
@@ -136,6 +136,25 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="4">
+        <widget class="QPushButton" name="muteButton">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QWidget" name="expansionWidget_2" native="true">
          <property name="sizePolicy">
@@ -264,13 +283,13 @@
         <widget class="QWidget" name="mediaControlWidget" native="true">
          <property name="minimumSize">
           <size>
-           <width>195</width>
+           <width>225</width>
            <height>70</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>195</width>
+           <width>225</width>
            <height>70</height>
           </size>
          </property>
@@ -349,25 +368,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <widget class="QPushButton" name="muteButton">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
     </layout>
@@ -388,9 +388,29 @@
     </property>
     <addaction name="actionOpen_File"/>
     <addaction name="actionOpen_Multiple_Files"/>
+    <addaction name="actionAdd_Subtitle_File"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuPlayback">
+    <property name="title">
+     <string>Playback</string>
+    </property>
+    <widget class="QMenu" name="menuSpeed">
+     <property name="title">
+      <string>Speed</string>
+     </property>
+     <addaction name="actionX0_5"/>
+     <addaction name="actionX_1"/>
+     <addaction name="actionX_2"/>
+     <addaction name="actionX_4"/>
+     <addaction name="actionX_8"/>
+    </widget>
+    <addaction name="actionJump_Forward"/>
+    <addaction name="actionJump_Backward"/>
+    <addaction name="menuSpeed"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuPlayback"/>
   </widget>
   <action name="actionOpen_File">
    <property name="text">
@@ -414,6 +434,46 @@
   <action name="actionOpen_Multiple_Files">
    <property name="text">
     <string>Open Multiple Files</string>
+   </property>
+  </action>
+  <action name="actionAdd_Subtitle_File">
+   <property name="text">
+    <string>Add Subtitle File</string>
+   </property>
+  </action>
+  <action name="actionJump_Forward">
+   <property name="text">
+    <string>Jump Forward</string>
+   </property>
+  </action>
+  <action name="actionJump_Backward">
+   <property name="text">
+    <string>Jump Backward</string>
+   </property>
+  </action>
+  <action name="actionX0_5">
+   <property name="text">
+    <string>x 0.5</string>
+   </property>
+  </action>
+  <action name="actionX_1">
+   <property name="text">
+    <string>Normal Speed</string>
+   </property>
+  </action>
+  <action name="actionX_2">
+   <property name="text">
+    <string>x 2</string>
+   </property>
+  </action>
+  <action name="actionX_4">
+   <property name="text">
+    <string>x 4</string>
+   </property>
+  </action>
+  <action name="actionX_8">
+   <property name="text">
+    <string>x 8</string>
    </property>
   </action>
  </widget>
