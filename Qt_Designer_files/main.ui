@@ -379,7 +379,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>28</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -393,7 +393,7 @@
    </widget>
    <widget class="QMenu" name="menuPlayback">
     <property name="title">
-     <string>Playback</string>
+     <string>&amp;Playback</string>
     </property>
     <widget class="QMenu" name="menuSpeed">
      <property name="title">
@@ -408,9 +408,42 @@
     <addaction name="actionJump_Forward"/>
     <addaction name="actionJump_Backward"/>
     <addaction name="menuSpeed"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlay"/>
+    <addaction name="actionPause"/>
+    <addaction name="actionStop"/>
+    <addaction name="separator"/>
+    <addaction name="actionPrevious"/>
+    <addaction name="actionNext"/>
+    <addaction name="separator"/>
+    <addaction name="actionJump_to_specific_time"/>
+   </widget>
+   <widget class="QMenu" name="menu_Subtitles">
+    <property name="title">
+     <string>&amp;Subtitles</string>
+    </property>
+    <addaction name="actionAdd_Subtitle_Track"/>
+   </widget>
+   <widget class="QMenu" name="menu_Audio">
+    <property name="title">
+     <string>&amp;Audio </string>
+    </property>
+    <addaction name="actionIncrease_Volume"/>
+    <addaction name="actionDecrease_Volume"/>
+    <addaction name="actionMute"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_Video">
+    <property name="title">
+     <string>&amp;Video</string>
+    </property>
+    <addaction name="actionFullscreen"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlayback"/>
+   <addaction name="menu_Subtitles"/>
+   <addaction name="menu_Audio"/>
+   <addaction name="menu_Video"/>
   </widget>
   <action name="actionOpen_File">
    <property name="text">
@@ -435,6 +468,9 @@
    <property name="text">
     <string>Open Multiple Files</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
   </action>
   <action name="actionAdd_Subtitle_File">
    <property name="text">
@@ -445,10 +481,16 @@
    <property name="text">
     <string>Jump Forward</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Num++</string>
+   </property>
   </action>
   <action name="actionJump_Backward">
    <property name="text">
     <string>Jump Backward</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Num+-</string>
    </property>
   </action>
   <action name="actionX0_5">
@@ -474,6 +516,85 @@
   <action name="actionX_8">
    <property name="text">
     <string>x 8</string>
+   </property>
+  </action>
+  <action name="actionAdd_Subtitle_Track">
+   <property name="text">
+    <string>Add Subtitle Track</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionPrevious">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Left</string>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Right</string>
+   </property>
+  </action>
+  <action name="actionJump_to_specific_time">
+   <property name="text">
+    <string>Jump to specific time</string>
+   </property>
+  </action>
+  <action name="actionIncrease_Volume">
+   <property name="text">
+    <string>Increase Volume</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Up</string>
+   </property>
+  </action>
+  <action name="actionDecrease_Volume">
+   <property name="text">
+    <string>Decrease Volume</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Down</string>
+   </property>
+  </action>
+  <action name="actionMute">
+   <property name="text">
+    <string>Mute</string>
+   </property>
+  </action>
+  <action name="actionFullscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fullscreen</string>
    </property>
   </action>
  </widget>
