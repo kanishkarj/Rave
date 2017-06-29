@@ -60,11 +60,11 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
         self.connect(self.window.stopButton,QtCore.SIGNAL("clicked()"),self.stopPlayer)
         self.connect(self.window.muteButton,QtCore.SIGNAL("clicked()"),self.toggleMute)
-        self.connect(self.window.actionX0_5,QtCore.SIGNAL("triggered()"),self.ratex0_5)
-        self.connect(self.window.actionX_1,QtCore.SIGNAL("triggered()"),self.rateNormal)
-        self.connect(self.window.actionX_2,QtCore.SIGNAL("triggered()"),self.ratex2)
-        self.connect(self.window.actionX_4,QtCore.SIGNAL("triggered()"),self.ratex4)
-        self.connect(self.window.actionX_8,QtCore.SIGNAL("triggered()"),self.ratex8)
+        self.connect(self.window.actionX0_5,QtCore.SIGNAL("triggered()"),lambda rate=0.5: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_1,QtCore.SIGNAL("triggered()"),lambda rate=1: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_2,QtCore.SIGNAL("triggered()"),lambda rate=2: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_4,QtCore.SIGNAL("triggered()"),lambda rate=4: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_8,QtCore.SIGNAL("triggered()"),lambda rate=8: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionJump_Forward,QtCore.SIGNAL("triggered()"),self.jumpForward)
         self.connect(self.window.actionJump_Backward,QtCore.SIGNAL("triggered()"),self.jumpBackward)
 
@@ -367,21 +367,6 @@ class VlcPlayer(QtGui.QMainWindow):
             self.setVolume(50)
             self.window.volumeBar.setValue(50)
     
-    def ratex0_5(self):
-        self.mediaPlayer.set_rate(0.5)
-
-    def rateNormal(self):
-        self.mediaPlayer.set_rate(1)
-
-    def ratex2(self):
-        self.mediaPlayer.set_rate(2)
-    
-    def ratex4(self):
-        self.mediaPlayer.set_rate(4)
-
-    def ratex8(self):
-        self.mediaPlayer.set_rate(8)
-
     def jumpForward(self):
         self.mediaPlayer.set_time(self.mediaPlayer.get_time()+10000)
         self.updateUI()
