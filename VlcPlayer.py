@@ -5,7 +5,8 @@ from PyQt4 import QtCore, QtGui
 from math import floor
 from main_design import Ui_MainWindow
 from playlist_design import Ui_playlist
-import urllib.request
+
+#import urllib.request
 
 class VlcPlayer(QtGui.QMainWindow):
     resized = QtCore.pyqtSignal()
@@ -14,7 +15,7 @@ class VlcPlayer(QtGui.QMainWindow):
         super(VlcPlayer, self).__init__(parent=parent)
         self.window = Ui_MainWindow()
         self.window.setupUi(self)
-        self.playlist=QtGui.QDialog()
+
         self.resized.connect(self.windowResized)
          # creating a basic vlc instance
         self.vlcInstance = vlc.Instance()
@@ -27,8 +28,10 @@ class VlcPlayer(QtGui.QMainWindow):
         self.isFullscreen = False
         self.connectControllers()
         self.setUI()
-        self.playlist.window=Ui_playlist()
-        self.playlist.window.setupUi(self.playlist)
+
+        from playlist import playlistDialog
+        self.playlist = playlistDialog
+
         self.mList=[]
         self.app = param_app
         self.window.centralwidget.setMouseTracking(True)
@@ -48,7 +51,7 @@ class VlcPlayer(QtGui.QMainWindow):
         
     def connectControllers(self):
         self.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
-        #self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
+        self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
         self.connect(self.timer, QtCore.SIGNAL("timeout()"),self.updateUI)
         self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
@@ -60,6 +63,16 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
         self.connect(self.window.stopButton,QtCore.SIGNAL("clicked()"),self.stopPlayer)
         self.connect(self.window.muteButton,QtCore.SIGNAL("clicked()"),self.toggleMute)
+        self.connect(self.window.actionX0_5, QtCore.SIGNAL("triggered()"),
+                     lambda rate=0.5: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_1, QtCore.SIGNAL("triggered()"),
+                     lambda rate=1: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_2, QtCore.SIGNAL("triggered()"),
+                     lambda rate=2: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_4, QtCore.SIGNAL("triggered()"),
+                     lambda rate=4: self.mediaPlayer.set_rate(rate))
+        self.connect(self.window.actionX_8, QtCore.SIGNAL("triggered()"),
+                     lambda rate=8: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX0_5,QtCore.SIGNAL("triggered()"),lambda rate=0.5: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX_1,QtCore.SIGNAL("triggered()"),lambda rate=1: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX_2,QtCore.SIGNAL("triggered()"),lambda rate=2: self.mediaPlayer.set_rate(rate))
@@ -102,7 +115,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.mediaListPlayer.next()
         self.media = self.mediaPlayer.get_media()
         self.setWindowTitle(self.media.get_meta(0))
-
+        self.setPlayPause()
     
     def setPrevious(self) :
         self.mediaListPlayer.previous()
@@ -110,6 +123,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.mediaListPlayer.previous()
         self.media = self.mediaPlayer.get_media()
         self.setWindowTitle(self.media.get_meta(0))
+        self.setPlayPause()
 
     def toggleFullscreen(self):
         if self.isFullScreen()==False:
@@ -231,12 +245,11 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
 
-    '''def OpenMultipleFiles(self,filenames = None):
+    def OpenMultipleFiles(self,filenames = None):
         if filenames is None:
             filenames = QtGui.QFileDialog.getOpenFileNames(self, "Open File", os.path.expanduser('~'))
         if not filenames:
             return
-            
         mList = []
         # create the media
         if sys.version < '3':
@@ -244,7 +257,6 @@ class VlcPlayer(QtGui.QMainWindow):
                 filenames[i] = unicode(filenames[i])
         for mPath in filenames :
             mList.append(self.vlcInstance.media_new(mPath))
-            
         self.mediaList = self.vlcInstance.media_list_new(filenames)
         # put the media in the media player
         self.mediaListPlayer.set_media_list(self.mediaList)
@@ -253,20 +265,17 @@ class VlcPlayer(QtGui.QMainWindow):
         self.media.parse()
         # set the title of the track as window title
         self.setWindowTitle(self.media.get_meta(0))
-       
         # the media player has to be 'connected' to the QFrame
         # (otherwise a video would be displayed in it's own window)
         # this is platform specific!
         # you have to give the id of the QFrame (or similar object) to
         # vlc, different platforms have different functions for this
-        self.mediaPlayer = self.mediaListPlayer.get_media_player()
-
-
+        self.mediaListPlayer.set_media_player(self.mediaPlayer)
+        #self.mediaPlayer = self.mediaListPlayer.get_media_player()
 
         # A hack to make everything to work properly :P
         self.mediaPlayer.set_media(self.media)
-        self.mediaListPlayer.next()
-
+        #self.mediaListPlayer.next()
         if sys.platform.startswith('linux'): # for Linux using the X Server
             self.mediaPlayer.set_xwindow(self.window.mediaView.winId())
         elif sys.platform == "win32": # for Windows
@@ -276,9 +285,10 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setPlayPause()
         self.setPlayPause()
         self.mediaPlayer.play()
-        self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))'''
-        
-    def stringTimeFormat(self,time) :
+        self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
+
+    def stringTimeFormat(self, time):
+
         strng = "00:00:00"
         
         if time<0 :
@@ -366,7 +376,6 @@ class VlcPlayer(QtGui.QMainWindow):
         else:
             self.setVolume(50)
             self.window.volumeBar.setValue(50)
-    
     def jumpForward(self):
         self.mediaPlayer.set_time(self.mediaPlayer.get_time()+10000)
         self.updateUI()
