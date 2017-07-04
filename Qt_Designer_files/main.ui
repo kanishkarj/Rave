@@ -379,7 +379,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>19</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -410,7 +410,6 @@
     <addaction name="menuSpeed"/>
     <addaction name="separator"/>
     <addaction name="actionPlay"/>
-    <addaction name="actionPause"/>
     <addaction name="actionStop"/>
     <addaction name="separator"/>
     <addaction name="actionPrevious"/>
@@ -482,7 +481,7 @@
     <string>Jump Forward</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Num++</string>
+    <string>Ctrl+Shift++</string>
    </property>
   </action>
   <action name="actionJump_Backward">
@@ -490,7 +489,7 @@
     <string>Jump Backward</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Num+-</string>
+    <string>Ctrl+Shift+-</string>
    </property>
   </action>
   <action name="actionX0_5">
@@ -525,7 +524,7 @@
   </action>
   <action name="actionPlay">
    <property name="text">
-    <string>Play</string>
+    <string>Play/Pause</string>
    </property>
    <property name="shortcut">
     <string>Space</string>
@@ -587,6 +586,9 @@
   <action name="actionMute">
    <property name="text">
     <string>Mute</string>
+   </property>
+   <property name="shortcut">
+    <string>M</string>
    </property>
   </action>
   <action name="actionFullscreen">

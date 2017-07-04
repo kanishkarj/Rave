@@ -63,16 +63,6 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.playlistButton,QtCore.SIGNAL("clicked()"),self.showPlaylist)
         self.connect(self.window.stopButton,QtCore.SIGNAL("clicked()"),self.stopPlayer)
         self.connect(self.window.muteButton,QtCore.SIGNAL("clicked()"),self.toggleMute)
-        self.connect(self.window.actionX0_5, QtCore.SIGNAL("triggered()"),
-                     lambda rate=0.5: self.mediaPlayer.set_rate(rate))
-        self.connect(self.window.actionX_1, QtCore.SIGNAL("triggered()"),
-                     lambda rate=1: self.mediaPlayer.set_rate(rate))
-        self.connect(self.window.actionX_2, QtCore.SIGNAL("triggered()"),
-                     lambda rate=2: self.mediaPlayer.set_rate(rate))
-        self.connect(self.window.actionX_4, QtCore.SIGNAL("triggered()"),
-                     lambda rate=4: self.mediaPlayer.set_rate(rate))
-        self.connect(self.window.actionX_8, QtCore.SIGNAL("triggered()"),
-                     lambda rate=8: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX0_5,QtCore.SIGNAL("triggered()"),lambda rate=0.5: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX_1,QtCore.SIGNAL("triggered()"),lambda rate=1: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionX_2,QtCore.SIGNAL("triggered()"),lambda rate=2: self.mediaPlayer.set_rate(rate))
@@ -80,7 +70,14 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionX_8,QtCore.SIGNAL("triggered()"),lambda rate=8: self.mediaPlayer.set_rate(rate))
         self.connect(self.window.actionJump_Forward,QtCore.SIGNAL("triggered()"),self.jumpForward)
         self.connect(self.window.actionJump_Backward,QtCore.SIGNAL("triggered()"),self.jumpBackward)
-
+        self.connect(self.window.actionMute,QtCore.SIGNAL("triggered()"),self.toggleMute)
+        self.connect(self.window.actionFullscreen,QtCore.SIGNAL("triggered()"),self.toggleFullscreen)
+        self.connect(self.window.actionPlay,QtCore.SIGNAL("triggered()"),self.setPlayPause)
+        self.connect(self.window.actionStop,QtCore.SIGNAL("triggered()"),self.stopPlayer)
+        self.connect(self.window.actionPrevious,QtCore.SIGNAL("triggered()"),self.setPrevious)
+        self.connect(self.window.actionNext,QtCore.SIGNAL("triggered()"),self.setNext)  
+        #self.connect(self.window.actionJump_to_specific_time,QtCore.SIGNAL("triggered()"),self.jumpToSpecificTime)                     
+       
     def keyPressEvent(self,event):
         if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
             self.showMaximized()
