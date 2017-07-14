@@ -169,14 +169,6 @@ class VlcPlayer(QtGui.QMainWindow):
         self.window.stopButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/stop.svg'))
         self.window.stopButton.setIconSize(QtCore.QSize(30,30))
         self.window.stopButton.setStyleSheet ('background-color:transparent;')
-
-        self.playlist.window.listAdd.setIcon(QtGui.QIcon('icons/svg/IconSet2/addMedia.svg'))
-        self.playlist.window.listAdd.setIconSize(QtCore.QSize(40,40))
-        self.playlist.window.listAdd.setStyleSheet ('background-color:transparent;')
-
-        self.playlist.window.listRemove.setIcon(QtGui.QIcon('icons/svg/IconSet2/removeMedia.svg'))
-        self.playlist.window.listRemove.setIconSize(QtCore.QSize(30,30))
-        self.playlist.window.listRemove.setStyleSheet ('background-color:transparent;')
         
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
@@ -323,6 +315,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.setMedia(self.media)
         else:
             self.playlist.setMultipleFiles(filenames)
+            self.playlist.setNowPlaying(self.media)
     
     def removeFromPlaylist(self):
         items=self.playlist.window.mediaList.selectedItems()
@@ -335,8 +328,11 @@ class VlcPlayer(QtGui.QMainWindow):
         self.playlist.setNowPlaying(self.media)
 
     def playMedia(self,item):
-        self.media=self.playlist.itemToMedia(item)
-        self.setMedia(self.media)
+        if self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
+            self.media=self.playlist.itemToMedia(item)
+            self.setMedia(self.media)
+        else:
+            return
 
     def stopPlayer(self):
         self.mediaPlayer.stop()

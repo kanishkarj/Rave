@@ -43,6 +43,12 @@ class Ui_playlist(object):
         self.listRemove.setText(_fromUtf8(""))
         self.listRemove.setObjectName(_fromUtf8("listRemove"))
         self.gridLayout.addWidget(self.listRemove, 0, 1, 1, 1)
+        self.listRearrange = QtGui.QPushButton(playlist)
+        self.listRearrange.setMinimumSize(QtCore.QSize(50, 50))
+        self.listRearrange.setMaximumSize(QtCore.QSize(50, 50))
+        self.listRearrange.setText(_fromUtf8(""))
+        self.listRearrange.setObjectName(_fromUtf8("listRearrange"))
+        self.gridLayout.addWidget(self.listRearrange, 0, 2, 1, 1)
 
         self.retranslateUi(playlist)
         QtCore.QMetaObject.connectSlotsByName(playlist)
