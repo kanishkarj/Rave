@@ -30,15 +30,17 @@ class Ui_playlist(object):
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.mediaList = QtGui.QListWidget(playlist)
         self.mediaList.setObjectName(_fromUtf8("mediaList"))
-        self.gridLayout.addWidget(self.mediaList, 1, 0, 1, 3)
+        self.gridLayout.addWidget(self.mediaList, 1, 0, 1, 4)
         self.listAdd = QtGui.QPushButton(playlist)
         self.listAdd.setMinimumSize(QtCore.QSize(50, 50))
         self.listAdd.setMaximumSize(QtCore.QSize(50, 50))
+        self.listAdd.setText(_fromUtf8(""))
         self.listAdd.setObjectName(_fromUtf8("listAdd"))
         self.gridLayout.addWidget(self.listAdd, 0, 0, 1, 1)
         self.listRemove = QtGui.QPushButton(playlist)
         self.listRemove.setMinimumSize(QtCore.QSize(50, 50))
         self.listRemove.setMaximumSize(QtCore.QSize(50, 50))
+        self.listRemove.setText(_fromUtf8(""))
         self.listRemove.setObjectName(_fromUtf8("listRemove"))
         self.gridLayout.addWidget(self.listRemove, 0, 1, 1, 1)
 
@@ -47,6 +49,4 @@ class Ui_playlist(object):
 
     def retranslateUi(self, playlist):
         playlist.setWindowTitle(_translate("playlist", "Playlist", None))
-        self.listAdd.setText(_translate("playlist", "Add", None))
-        self.listRemove.setText(_translate("playlist", "Remove", None))
 

@@ -566,6 +566,9 @@
    <property name="text">
     <string>Jump to specific time</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
   </action>
   <action name="actionIncrease_Volume">
    <property name="text">

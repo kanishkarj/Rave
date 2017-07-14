@@ -292,6 +292,7 @@ class Ui_MainWindow(object):
         self.actionNext.setText(_translate("MainWindow", "Next", None))
         self.actionNext.setShortcut(_translate("MainWindow", "Ctrl+Shift+Right", None))
         self.actionJump_to_specific_time.setText(_translate("MainWindow", "Jump to specific time", None))
+        self.actionJump_to_specific_time.setShortcut(_translate("MainWindow", "Ctrl+T", None))
         self.actionIncrease_Volume.setText(_translate("MainWindow", "Increase Volume", None))
         self.actionIncrease_Volume.setShortcut(_translate("MainWindow", "Ctrl+Up", None))
         self.actionDecrease_Volume.setText(_translate("MainWindow", "Decrease Volume", None))
