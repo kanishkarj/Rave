@@ -112,21 +112,19 @@ class VlcPlayer(QtGui.QMainWindow):
 
     def setNext(self) :
         pos=self.playlist.mediaList.index_of_item(self.mediaPlayer.get_media())
-        if pos!= self.playlist.mediaList.count()-1:
+        if pos!= self.playlist.mediaList.count()-1 and self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
             self.media=self.playlist.mediaList.item_at_index(pos+1)
+            self.setMedia(self.media)
         else:
-            return
-            
-        self.setMedia(self.media)
+            return       
             
     def setPrevious(self) :
         pos=self.playlist.mediaList.index_of_item(self.mediaPlayer.get_media())
-        if pos!= 0:
+        if pos!= 0 and self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
             self.media=self.playlist.mediaList.item_at_index(pos-1)
+            self.setMedia(self.media)
         else:
             return
-            
-        self.setMedia(self.media)
         
     def toggleFullscreen(self):
         if self.isFullScreen()==False:
@@ -318,14 +316,17 @@ class VlcPlayer(QtGui.QMainWindow):
             self.playlist.setNowPlaying(self.media)
     
     def removeFromPlaylist(self):
-        items=self.playlist.window.mediaList.selectedItems()
-        for item in items:
-            if self.mediaPlayer.get_media().get_meta(0)==item.text():
-                continue
-            else:
-                self.playlist.mediaList.remove_index(self.playlist.window.mediaList.row(item))        
-        self.playlist.updatePlaylistUi()
-        self.playlist.setNowPlaying(self.media)
+        if self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
+            items=self.playlist.window.mediaList.selectedItems()
+            for item in items:
+                if self.mediaPlayer.get_media().get_meta(0)==item.text():
+                    continue
+                else:
+                    self.playlist.mediaList.remove_index(self.playlist.window.mediaList.row(item))        
+            self.playlist.updatePlaylistUi()
+            self.playlist.setNowPlaying(self.media)
+        else:
+            return
 
     def playMedia(self,item):
         if self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
