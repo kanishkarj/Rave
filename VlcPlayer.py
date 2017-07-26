@@ -55,6 +55,8 @@ class VlcPlayer(QtGui.QMainWindow):
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
         
     def connectControllers(self):
+
+        
         self.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
         self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
@@ -393,7 +395,7 @@ class VlcPlayer(QtGui.QMainWindow):
             
             for subItem in subs:
                 if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt):
-                    print(subItem.text)
+                    self.window.subtitle.setText(subItem.text)
                     subs.remove(subItem)
                     break
 

@@ -372,6 +372,27 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="subtitle">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>240</y>
+      <width>261</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;</string>
+    </property>
+    <property name="text">
+     <string>hello</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -379,7 +400,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>28</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -397,7 +418,7 @@
     </property>
     <widget class="QMenu" name="menuSpeed">
      <property name="title">
-      <string>Speed</string>
+      <string>&amp;Speed</string>
      </property>
      <addaction name="actionX0_5"/>
      <addaction name="actionX_1"/>
@@ -446,7 +467,7 @@
   </widget>
   <action name="actionOpen_File">
    <property name="text">
-    <string>Open File</string>
+    <string>&amp;Open File</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -457,7 +478,7 @@
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>&amp;Exit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -465,7 +486,7 @@
   </action>
   <action name="actionOpen_Multiple_Files">
    <property name="text">
-    <string>Open Multiple Files</string>
+    <string>Open &amp;Multiple Files</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+O</string>
@@ -473,12 +494,12 @@
   </action>
   <action name="actionAdd_Subtitle_File">
    <property name="text">
-    <string>Add Subtitle File</string>
+    <string>&amp;Add Subtitle File</string>
    </property>
   </action>
   <action name="actionJump_Forward">
    <property name="text">
-    <string>Jump Forward</string>
+    <string>&amp;Jump Forward</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift++</string>
@@ -486,7 +507,7 @@
   </action>
   <action name="actionJump_Backward">
    <property name="text">
-    <string>Jump Backward</string>
+    <string>Jump &amp;Backward</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+-</string>
@@ -494,37 +515,37 @@
   </action>
   <action name="actionX0_5">
    <property name="text">
-    <string>x 0.5</string>
+    <string>&amp;x 0.5</string>
    </property>
   </action>
   <action name="actionX_1">
    <property name="text">
-    <string>Normal Speed</string>
+    <string>&amp;Normal Speed</string>
    </property>
   </action>
   <action name="actionX_2">
    <property name="text">
-    <string>x 2</string>
+    <string>x &amp;2</string>
    </property>
   </action>
   <action name="actionX_4">
    <property name="text">
-    <string>x 4</string>
+    <string>x &amp;4</string>
    </property>
   </action>
   <action name="actionX_8">
    <property name="text">
-    <string>x 8</string>
+    <string>x &amp;8</string>
    </property>
   </action>
   <action name="actionAdd_Subtitle_Track">
    <property name="text">
-    <string>Add Subtitle Track</string>
+    <string>&amp;Add Subtitle Track</string>
    </property>
   </action>
   <action name="actionPlay">
    <property name="text">
-    <string>Play/Pause</string>
+    <string>&amp;Play/Pause</string>
    </property>
    <property name="shortcut">
     <string>Space</string>
@@ -540,7 +561,7 @@
   </action>
   <action name="actionStop">
    <property name="text">
-    <string>Stop</string>
+    <string>St&amp;op</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -548,7 +569,7 @@
   </action>
   <action name="actionPrevious">
    <property name="text">
-    <string>Previous</string>
+    <string>P&amp;revious</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Left</string>
@@ -556,7 +577,7 @@
   </action>
   <action name="actionNext">
    <property name="text">
-    <string>Next</string>
+    <string>&amp;Next</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Right</string>
@@ -564,7 +585,7 @@
   </action>
   <action name="actionJump_to_specific_time">
    <property name="text">
-    <string>Jump to specific time</string>
+    <string>J&amp;ump to specific time</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
@@ -572,7 +593,7 @@
   </action>
   <action name="actionIncrease_Volume">
    <property name="text">
-    <string>Increase Volume</string>
+    <string>&amp;Increase Volume</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Up</string>
@@ -580,7 +601,7 @@
   </action>
   <action name="actionDecrease_Volume">
    <property name="text">
-    <string>Decrease Volume</string>
+    <string>&amp;Decrease Volume</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Down</string>
@@ -588,7 +609,7 @@
   </action>
   <action name="actionMute">
    <property name="text">
-    <string>Mute</string>
+    <string>&amp;Mute</string>
    </property>
    <property name="shortcut">
     <string>M</string>
@@ -599,7 +620,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Fullscreen</string>
+    <string>&amp;Fullscreen</string>
    </property>
   </action>
  </widget>
