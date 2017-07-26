@@ -6,6 +6,8 @@ from math import floor
 from main_design import Ui_MainWindow
 from specificTimeDialog_design import Ui_Dialog
 from playlist import Playlist
+import pysrt
+import threading
 
 class VlcPlayer(QtGui.QMainWindow):
     resized = QtCore.pyqtSignal()
@@ -22,7 +24,6 @@ class VlcPlayer(QtGui.QMainWindow):
         self.mediaPlayer = self.vlcInstance.media_player_new()
         self.mediaListPlayer = self.vlcInstance.media_list_player_new()
         self.playlist = Playlist()
-
         self.timer = QtCore.QTimer()
         self.timer.setInterval(200)
         self.isPaused = False
@@ -80,6 +81,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionStop,QtCore.SIGNAL("triggered()"),self.stopPlayer)
         self.connect(self.window.actionPrevious,QtCore.SIGNAL("triggered()"),self.setPrevious)
         self.connect(self.window.actionNext,QtCore.SIGNAL("triggered()"),self.setNext)  
+        self.connect(self.window.actionAdd_Subtitle_File,QtCore.SIGNAL("triggered()"),self.addSubtitle)
         self.connect(self.window.actionJump_to_specific_time,QtCore.SIGNAL("triggered()"),self.jumpToSpecificTime)                     
         
     def keyPressEvent(self,event):
@@ -375,4 +377,26 @@ class VlcPlayer(QtGui.QMainWindow):
         self.dialog.window.minutes.setValue(0)
         self.dialog.window.seconds.setValue(0)
 
+    def addSubtitle(self):
+        subsFile = QtGui.QFileDialog.getOpenFileName(self, "Open File", os.path.expanduser('~'))
+        if not subsFile:
+            return
+        if sys.version < '3':
+            subsFile = unicode(subsFile)
+        subs = pysrt.open(subsFile)
+
+        def f():
+            pos = int(self.media.get_duration() * self.mediaPlayer.get_position())
+            hr = floor((pos/3600)/1000)
+            mnt = floor((pos - hr*1000*3600)/60000)
+            sec = floor((pos - hr*3600*1000 - mnt*60*1000)/1000)
+            
+            for subItem in subs:
+                if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt):
+                    print(subItem.text)
+                    subs.remove(subItem)
+                    break
+
+            threading.Timer(1, f).start()
+        f()
     
