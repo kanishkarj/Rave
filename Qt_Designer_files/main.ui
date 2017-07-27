@@ -375,7 +375,7 @@
    <widget class="QLabel" name="subtitle">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>250</x>
       <y>240</y>
       <width>261</width>
       <height>17</height>

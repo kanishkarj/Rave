@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.expansionWidget, 0, 3, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout_3)
         self.subtitle = QtGui.QLabel(self.centralwidget)
-        self.subtitle.setGeometry(QtCore.QRect(180, 240, 261, 17))
+        self.subtitle.setGeometry(QtCore.QRect(250, 240, 261, 17))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.subtitle.setFont(font)

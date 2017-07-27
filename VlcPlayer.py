@@ -43,17 +43,24 @@ class VlcPlayer(QtGui.QMainWindow):
         self.window.volumeBar.setValue(50)
         self.setVolume(50)
 
+        
+
     def resizeEvent(self, event):
         self.resized.emit()
         return super(VlcPlayer, self).resizeEvent(event)
 
     def windowResized(self):
+
+        self.window.subtitle.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         if self.isFullScreen() == False:
             cvHeight = 130
             mvMinHeight = 200
             self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
-        
+            self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-(cvHeight+100), self.width()-40, 60))
+        else :
+            self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-100, self.width()-40, 60))
+
     def connectControllers(self):
 
         
@@ -98,6 +105,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.toggleMute()
         if event.key()==QtCore.Qt.Key_Space:
             self.setPlayPause()
+        
 
     def mouseDoubleClickEvent(self,event):
         if self.isFullScreen()==False:
@@ -146,6 +154,8 @@ class VlcPlayer(QtGui.QMainWindow):
 
     def setUI(self):
         
+        
+
         self.window.mediaView.setStyleSheet('background-color:black;border-radius:1px;')
         
         self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
@@ -291,7 +301,7 @@ class VlcPlayer(QtGui.QMainWindow):
                 # after the video finished, the play button stills shows
                 # "Pause", not the desired behavior of a media player
                 # this will fix it
-                self.mediaPlayer.stop()
+                self.mediaPlayer.stopxd()
                 self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
        
         self.window.timeDone.setText(self.stringTimeFormat(int(self.media.get_duration() * self.mediaPlayer.get_position())))
@@ -393,11 +403,12 @@ class VlcPlayer(QtGui.QMainWindow):
             mnt = floor((pos - hr*1000*3600)/60000)
             sec = floor((pos - hr*3600*1000 - mnt*60*1000)/1000)
             
-            for subItem in subs:
-                if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt):
-                    self.window.subtitle.setText(subItem.text)
-                    subs.remove(subItem)
-                    break
+            subItem = subs[0]
+
+            if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt):
+                self.window.subtitle.setText(subItem.text)
+                subs.remove(subItem)
+                subItem = subs[0]
 
             threading.Timer(1, f).start()
         f()
