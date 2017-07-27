@@ -28,6 +28,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.timer.setInterval(200)
         self.isPaused = False
         self.isFullscreen = False
+        self.subs = None
         self.connectControllers()
         self.setUI()
 
@@ -103,6 +104,10 @@ class VlcPlayer(QtGui.QMainWindow):
             self.toggleFullscreen()
         if event.key()==QtCore.Qt.Key_M:
             self.toggleMute()
+        if event.key()==QtCore.Qt.Key_H:
+            self.subs.shift(milliseconds=1000)
+        if event.key()==QtCore.Qt.Key_M:
+            self.subs.shift(milliseconds=-1000)
         if event.key()==QtCore.Qt.Key_Space:
             self.setPlayPause()
         
@@ -395,7 +400,7 @@ class VlcPlayer(QtGui.QMainWindow):
             return
         if sys.version < '3':
             subsFile = unicode(subsFile)
-        subs = pysrt.open(subsFile)
+        self.subs = pysrt.open(subsFile)
 
         def f():
             pos = int(self.media.get_duration() * self.mediaPlayer.get_position())
@@ -403,12 +408,12 @@ class VlcPlayer(QtGui.QMainWindow):
             mnt = floor((pos - hr*1000*3600)/60000)
             sec = floor((pos - hr*3600*1000 - mnt*60*1000)/1000)
             
-            subItem = subs[0]
+            subItem = self.subs[0]
 
-            if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt):
+            if (subItem.start.seconds == sec) & (subItem.start.hours == hr) & (subItem.start.minutes == mnt) :
                 self.window.subtitle.setText(subItem.text)
-                subs.remove(subItem)
-                subItem = subs[0]
+                self.subs.remove(subItem)
+                subItem = self.subs[0]
 
             threading.Timer(1, f).start()
         f()
