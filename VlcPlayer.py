@@ -93,7 +93,10 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionNext,QtCore.SIGNAL("triggered()"),self.setNext)  
         self.connect(self.window.actionAdd_Subtitle_File,QtCore.SIGNAL("triggered()"),self.addSubtitle)
         self.connect(self.window.actionJump_to_specific_time,QtCore.SIGNAL("triggered()"),self.jumpToSpecificTime)                     
-        
+        self.connect(self.window.actionAdd_Subtitle_Track,QtCore.SIGNAL("triggered()"),self.addSubtitle)
+        self.connect(self.window.actionShift_forward_by_1_second,QtCore.SIGNAL("triggered()"),lambda : self.subs.shift(milliseconds=1000))
+        self.connect(self.window.actionShift_backward_by_1_second,QtCore.SIGNAL("triggered()"),lambda : self.subs.shift(milliseconds=-1000))
+
     def keyPressEvent(self,event):
         if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
             self.showMaximized()

@@ -443,6 +443,9 @@
      <string>&amp;Subtitles</string>
     </property>
     <addaction name="actionAdd_Subtitle_Track"/>
+    <addaction name="separator"/>
+    <addaction name="actionShift_forward_by_1_second"/>
+    <addaction name="actionShift_backward_by_1_second"/>
    </widget>
    <widget class="QMenu" name="menu_Audio">
     <property name="title">
@@ -621,6 +624,22 @@
    </property>
    <property name="text">
     <string>&amp;Fullscreen</string>
+   </property>
+  </action>
+  <action name="actionShift_forward_by_1_second">
+   <property name="text">
+    <string>Shift forward by 1 second</string>
+   </property>
+   <property name="shortcut">
+    <string>H</string>
+   </property>
+  </action>
+  <action name="actionShift_backward_by_1_second">
+   <property name="text">
+    <string>Shift backward by 1 second</string>
+   </property>
+   <property name="shortcut">
+    <string>G</string>
    </property>
   </action>
  </widget>
