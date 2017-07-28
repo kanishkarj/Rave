@@ -39,12 +39,33 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="controlView">
+   <widget class="QLabel" name="subtitle">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>250</x>
+      <y>240</y>
+      <width>261</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;</string>
+    </property>
+    <property name="text">
+     <string>hello</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="controlView" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
       <y>270</y>
-      <width>631</width>
+      <width>661</width>
       <height>130</height>
      </rect>
     </property>
@@ -60,15 +81,9 @@
       <height>130</height>
      </size>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_8">
        <item row="0" column="0">
         <widget class="QLabel" name="timeDone">
          <property name="minimumSize">
@@ -135,7 +150,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="4">
         <widget class="QPushButton" name="muteButton">
          <property name="minimumSize">
@@ -156,14 +171,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QWidget" name="expansionWidget_2" native="true">
+        <widget class="QWidget" name="expansionWidget_3" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <layout class="QGridLayout" name="gridLayout_6"/>
+         <layout class="QGridLayout" name="gridLayout_7"/>
         </widget>
        </item>
        <item row="0" column="5">
@@ -199,7 +214,7 @@
            <height>60</height>
           </size>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QPushButton" name="fullscreenButton">
             <property name="minimumSize">
@@ -293,7 +308,7 @@
            <height>70</height>
           </size>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
            <widget class="QPushButton" name="previous">
             <property name="minimumSize">
@@ -359,7 +374,7 @@
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QWidget" name="expansionWidget" native="true">
+        <widget class="QWidget" name="expansionWidget_4" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -372,27 +387,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="subtitle">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>240</y>
-      <width>261</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;</string>
-    </property>
-    <property name="text">
-     <string>hello</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -400,7 +394,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>29</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
