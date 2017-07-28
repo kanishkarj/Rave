@@ -55,16 +55,17 @@ class VlcPlayer(QtGui.QMainWindow):
         return super(VlcPlayer, self).resizeEvent(event)
 
     def windowResized(self):
-
+        cvHeight = 130
+        mvMinHeight = 200
         self.window.subtitle.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         if self.isFullScreen() == False:
-            cvHeight = 130
-            mvMinHeight = 200
             self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
             self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-(cvHeight+100), self.width()-40, 60))
         else :
             self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-100, self.width()-40, 60))
+            self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height()-cvHeight, self.width(), cvHeight))
+            
 
     def connectControllers(self):
 
@@ -326,7 +327,7 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.timeDone.setText(self.stringTimeFormat(int(self.media.get_duration() * self.mediaPlayer.get_position())))
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
-
+       
     def showPlaylist(self):
         self.playlist.show()
         self.playlist.connect(self.playlist.window.listAdd,QtCore.SIGNAL("clicked()"),self.addtoPlaylist)
