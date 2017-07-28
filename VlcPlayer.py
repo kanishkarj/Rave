@@ -35,7 +35,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.dialog.window.setupUi(self.dialog)
         self.dialog.window.reset.setIcon(QtGui.QIcon('icons/svg/IconSet2/refresh.svg'))
         self.dialog.window.reset.setIconSize(QtCore.QSize(30,30))
-        self.dialog.window.reset.setStyleSheet ('background-color:transparent;')
+        self.dialog.window.reset.setStyleSheet('background-color:transparent;border-radius:5em;')
 
         self.app = param_app
         #self.window.centralwidget.setMouseTracking(True)
@@ -181,27 +181,27 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.playState.setIcon(QtGui.QIcon('icons/svg/IconSet2/play.svg'))
         self.window.playState.setIconSize(QtCore.QSize(50,50))
-        self.window.playState.setStyleSheet ('background-color:transparent;')
+        self.window.playState.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.previous.setIcon(QtGui.QIcon('icons/svg/IconSet2/previous.svg'))
         self.window.previous.setIconSize(QtCore.QSize(40,40))
-        self.window.previous.setStyleSheet ('background-color:transparent;')
+        self.window.previous.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.next.setIcon(QtGui.QIcon('icons/svg/IconSet2/next.svg'))
         self.window.next.setIconSize(QtCore.QSize(40,40))
-        self.window.next.setStyleSheet ('background-color:transparent;')
+        self.window.next.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.fullscreenButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/fullscreen.svg'))
         self.window.fullscreenButton.setIconSize(QtCore.QSize(20,20))
-        self.window.fullscreenButton.setStyleSheet ('background-color:transparent;')
+        self.window.fullscreenButton.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.playlistButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/playlist.svg'))
         self.window.playlistButton.setIconSize(QtCore.QSize(30,30))
-        self.window.playlistButton.setStyleSheet ('background-color:transparent;')
+        self.window.playlistButton.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.stopButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/stop.svg'))
         self.window.stopButton.setIconSize(QtCore.QSize(30,30))
-        self.window.stopButton.setStyleSheet ('background-color:transparent;')
+        self.window.stopButton.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
@@ -233,19 +233,15 @@ class VlcPlayer(QtGui.QMainWindow):
     def setVolume(self, volume):
         # here the factor is multiplied with 2, hence the volume is out of 200%
         self.mediaPlayer.audio_set_volume(volume*2)
+        self.window.muteButton.setIconSize(QtCore.QSize(25,25))
+        self.window.muteButton.setStyleSheet ('background-color:transparent; border-radius:5em;')
         if volume==0:
             self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-off.svg'))
-            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
-            self.window.muteButton.setStyleSheet ('background-color:transparent;')
         elif volume>0 and volume<=50:
             self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-medium.svg'))
-            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
-            self.window.muteButton.setStyleSheet ('background-color:transparent;')
         elif volume>50 and volume<=100:
             self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-high.svg'))
-            self.window.muteButton.setIconSize(QtCore.QSize(25,25))
-            self.window.muteButton.setStyleSheet ('background-color:transparent;')
-
+            
     def setMedia(self,media):
         media.parse()
 
@@ -327,6 +323,9 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.timeDone.setText(self.stringTimeFormat(int(self.media.get_duration() * self.mediaPlayer.get_position())))
         self.window.timeLeft.setText(self.stringTimeFormat(self.media.get_duration()))
+
+        if(self.subs):
+            self.displaySubtitle()
        
     def showPlaylist(self):
         self.playlist.show()
@@ -410,15 +409,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.dialog.window.minutes.setValue(0)
         self.dialog.window.seconds.setValue(0)
 
-    def addSubtitle(self):
-        subsFile = QtGui.QFileDialog.getOpenFileName(self, "Open File", os.path.expanduser('~'))
-        if not subsFile:
-            return
-        if sys.version < '3':
-            subsFile = unicode(subsFile)
-        self.subs = pysrt.open(subsFile)
-
-        def f():
+    def displaySubtitle(self):
             pos = int(self.media.get_duration() * self.mediaPlayer.get_position())
             hr = floor((pos/3600)/1000)
             mnt = floor((pos - hr*1000*3600)/60000)
@@ -431,5 +422,13 @@ class VlcPlayer(QtGui.QMainWindow):
                 self.subs.remove(subItem)
                 subItem = self.subs[0]
 
-            threading.Timer(1, f).start()
-        f()
+    def addSubtitle(self):
+        subsFile = QtGui.QFileDialog.getOpenFileName(self, "Open File", os.path.expanduser('~'))
+        if not subsFile:
+            return
+        if sys.version < '3':
+            subsFile = unicode(subsFile)
+        self.subs = pysrt.open(subsFile)
+
+        
+

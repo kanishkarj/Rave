@@ -84,6 +84,18 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QGridLayout" name="gridLayout_8">
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
        <item row="0" column="0">
         <widget class="QLabel" name="timeDone">
          <property name="minimumSize">
@@ -151,6 +163,18 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_4">
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
        <item row="0" column="4">
         <widget class="QPushButton" name="muteButton">
          <property name="minimumSize">
@@ -164,6 +188,9 @@
            <width>30</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>volume</string>
          </property>
          <property name="text">
           <string/>
@@ -229,6 +256,9 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Fullscreen</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -247,6 +277,9 @@
               <width>30</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Playlist</string>
             </property>
             <property name="text">
              <string/>
@@ -267,24 +300,8 @@
               <height>30</height>
              </size>
             </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="setiingsButton">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
+            <property name="toolTip">
+             <string>Stop</string>
             </property>
             <property name="text">
              <string/>
@@ -323,6 +340,9 @@
               <height>40</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Previous</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -341,6 +361,9 @@
               <width>50</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Play/Pause</string>
             </property>
             <property name="text">
              <string/>
@@ -364,6 +387,9 @@
               <width>40</width>
               <height>40</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Next</string>
             </property>
             <property name="text">
              <string/>
@@ -394,7 +420,7 @@
      <x>0</x>
      <y>0</y>
      <width>764</width>
-     <height>28</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -403,12 +429,12 @@
     </property>
     <addaction name="actionOpen_File"/>
     <addaction name="actionOpen_Multiple_Files"/>
-    <addaction name="actionAdd_Subtitle_File"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPlayback">
     <property name="title">
-     <string>&amp;Playback</string>
+     <string>P&amp;layback</string>
     </property>
     <widget class="QMenu" name="menuSpeed">
      <property name="title">
@@ -614,15 +640,18 @@
   </action>
   <action name="actionFullscreen">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>&amp;Fullscreen</string>
    </property>
+   <property name="shortcut">
+    <string>F</string>
+   </property>
   </action>
   <action name="actionShift_forward_by_1_second">
    <property name="text">
-    <string>Shift forward by 1 second</string>
+    <string>&amp;Shift Forward By 1 Second</string>
    </property>
    <property name="shortcut">
     <string>H</string>
@@ -630,7 +659,7 @@
   </action>
   <action name="actionShift_backward_by_1_second">
    <property name="text">
-    <string>Shift backward by 1 second</string>
+    <string>Shift &amp;Backward By 1 Second</string>
    </property>
    <property name="shortcut">
     <string>G</string>

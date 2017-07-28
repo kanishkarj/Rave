@@ -13,15 +13,15 @@ class Playlist(QtGui.QDialog):
 
         self.window.listAdd.setIcon(QtGui.QIcon('icons/svg/IconSet2/addMedia.svg'))
         self.window.listAdd.setIconSize(QtCore.QSize(40,40))
-        self.window.listAdd.setStyleSheet ('background-color:transparent;')
+        self.window.listAdd.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.listRemove.setIcon(QtGui.QIcon('icons/svg/IconSet2/removeMedia.svg'))
         self.window.listRemove.setIconSize(QtCore.QSize(30,30))
-        self.window.listRemove.setStyleSheet ('background-color:transparent;')
+        self.window.listRemove.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
         self.window.listRearrange.setIcon(QtGui.QIcon('icons/svg/IconSet2/rearrange.svg'))
         self.window.listRearrange.setIconSize(QtCore.QSize(30,30))
-        self.window.listRearrange.setStyleSheet ('background-color:transparent;')
+        self.window.listRearrange.setStyleSheet ('background-color:transparent; border-radius:5em;')
         
         self.window.mediaList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.connect(self.window.listRearrange,QtCore.SIGNAL("clicked()"),self.rearrangePlaylist)
