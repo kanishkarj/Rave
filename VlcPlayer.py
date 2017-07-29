@@ -49,6 +49,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.window.controlView.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         self.window.seekBar.installEventFilter(self)
+        self.window.volumeBar.installEventFilter(self)
 
         self.connectControllers()
 
@@ -76,8 +77,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
         self.connect(self.timer, QtCore.SIGNAL("timeout()"),self.updateUI)
         self.connect(self.hoverTimer, QtCore.SIGNAL("timeout()"),self.hideControls)
-        #self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
-        self.connect(self.window.seekBar,QtCore.SIGNAL("valueChanged(int)"),self.setSeekPosition)
+        self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
         self.connect(self.window.playState, QtCore.SIGNAL("clicked()"),self.setPlayPause)
         self.connect(self.window.next, QtCore.SIGNAL("clicked()"),self.setNext)
         self.connect(self.window.previous, QtCore.SIGNAL("clicked()"),self.setPrevious)
@@ -146,7 +146,11 @@ class VlcPlayer(QtGui.QMainWindow):
             self.hoverTimer.start()
             return 0
         elif event.type() == QtCore.QEvent.MouseButtonPress and source==self.window.seekBar:
-            self.window.seekBar.setValue( event.x() * 1000 / self.window.seekBar.width())
+            self.window.seekBar.setValue(event.x() * 1000 / self.window.seekBar.width())
+            self.setSeekPosition(event.x() * 1000 / self.window.seekBar.width())
+            return 0
+        elif event.type() == QtCore.QEvent.MouseButtonPress and source==self.window.volumeBar :
+            self.window.volumeBar.setValue(event.x() * 100 / self.window.volumeBar.width())
             return 0
         else:
             return 0
