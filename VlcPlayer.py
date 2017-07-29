@@ -48,6 +48,8 @@ class VlcPlayer(QtGui.QMainWindow):
         self.hoverTimer.setInterval(2000)
         self.window.controlView.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
+        self.window.seekBar.installEventFilter(self)
+
         self.connectControllers()
 
     def resizeEvent(self, event):
@@ -65,7 +67,7 @@ class VlcPlayer(QtGui.QMainWindow):
         else :
             self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-100, self.width()-40, 60))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height()-cvHeight, self.width(), cvHeight))
-            
+
 
     def connectControllers(self):
 
@@ -74,7 +76,8 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
         self.connect(self.timer, QtCore.SIGNAL("timeout()"),self.updateUI)
         self.connect(self.hoverTimer, QtCore.SIGNAL("timeout()"),self.hideControls)
-        self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
+        #self.connect(self.window.seekBar,QtCore.SIGNAL("sliderMoved(int)"),self.setSeekPosition)
+        self.connect(self.window.seekBar,QtCore.SIGNAL("valueChanged(int)"),self.setSeekPosition)
         self.connect(self.window.playState, QtCore.SIGNAL("clicked()"),self.setPlayPause)
         self.connect(self.window.next, QtCore.SIGNAL("clicked()"),self.setNext)
         self.connect(self.window.previous, QtCore.SIGNAL("clicked()"),self.setPrevious)
@@ -138,9 +141,12 @@ class VlcPlayer(QtGui.QMainWindow):
         self.hoverTimer.stop()
 
     def eventFilter(self,source,event):
-        if event.type() == QtCore.QEvent.MouseMove and self.isFullScreen():
+        if event.type() == QtCore.QEvent.MouseMove and self.isFullScreen() and source==self.window.mediaView:
             self.window.controlView.show()
             self.hoverTimer.start()
+            return 0
+        elif event.type() == QtCore.QEvent.MouseButtonPress and source==self.window.seekBar:
+            self.window.seekBar.setValue( event.x() * 1000 / self.window.seekBar.width())
             return 0
         else:
             return 0
@@ -205,7 +211,7 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
-        self.window.volumeBar.setValue(self.mediaPlayer.audio_get_volume())
+        #self.window.volumeBar.setValue(self.mediaPlayer.audio_get_volume())
         if sys.platform.startswith('linux'): # for Linux using the X Server
             self.mediaPlayer.set_xwindow(self.window.mediaView.winId())
         elif sys.platform == "win32": # for Windows
@@ -241,7 +247,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-medium.svg'))
         elif volume>50 and volume<=100:
             self.window.muteButton.setIcon(QtGui.QIcon('icons/svg/IconSet2/volume-high.svg'))
-            
+
     def setMedia(self,media):
         media.parse()
 
@@ -326,7 +332,7 @@ class VlcPlayer(QtGui.QMainWindow):
 
         if(self.subs):
             self.displaySubtitle()
-       
+
     def showPlaylist(self):
         self.playlist.show()
         self.playlist.connect(self.playlist.window.listAdd,QtCore.SIGNAL("clicked()"),self.addtoPlaylist)
@@ -429,6 +435,3 @@ class VlcPlayer(QtGui.QMainWindow):
         if sys.version < '3':
             subsFile = unicode(subsFile)
         self.subs = pysrt.open(subsFile)
-
-        
-
