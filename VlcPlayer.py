@@ -3,8 +3,8 @@ import os.path
 from packages.libvlc import vlc
 from PyQt4 import QtCore, QtGui
 from math import floor
-from main_design import Ui_MainWindow
-from specificTimeDialog_design import Ui_Dialog
+from Qt_Designer_files.main_design import Ui_MainWindow
+from Qt_Designer_files.specificTimeDialog_design import Ui_Dialog
 from playlist import Playlist
 import pysrt
 import threading
@@ -16,7 +16,7 @@ class VlcPlayer(QtGui.QMainWindow):
         super(VlcPlayer, self).__init__(parent=parent)
         self.window = Ui_MainWindow()
         self.window.setupUi(self)
-
+        
         self.resized.connect(self.windowResized)
          # creating a basic vlc instance
         self.vlcInstance = vlc.Instance()

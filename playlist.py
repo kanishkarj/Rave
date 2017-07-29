@@ -2,7 +2,7 @@ import sys
 import os.path
 from packages.libvlc import vlc
 from PyQt4 import QtCore, QtGui
-from playlist_design import Ui_playlist
+from Qt_Designer_files.playlist_design import Ui_playlist
 
 class Playlist(QtGui.QDialog):
     def __init__(self):
