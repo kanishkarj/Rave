@@ -1,5 +1,5 @@
 # Rave
-Media Player built on `python`, `[libvlc.py](https://wiki.videolan.org/python_bindings)`, `pystr` and `pyqt`.
+Media Player built on `python`, [`libvlc.py`](https://wiki.videolan.org/python_bindings), `pystr` and `pyqt`.
 
 ## Requirements
 - [Python 3](https://www.python.org/download/releases/3.0/)
