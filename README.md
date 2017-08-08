@@ -1,5 +1,5 @@
 # Rave
-Media Player built on python, [libvlc.py](https://wiki.videolan.org/python_bindings), pystr and pyqt.
+Media Player built on `python`, `[libvlc.py](https://wiki.videolan.org/python_bindings)`, `pystr` and `pyqt`.
 
 ## Requirements
 - [Python 3](https://www.python.org/download/releases/3.0/)
@@ -26,7 +26,7 @@ Before building the project ensure that the required packages are installed. Ins
     ```
 - **pysrt:**
     - *Windows* :
-    Execute the following statement in the commaand prompt with administrative privileges.
+    Execute the following statement in the command prompt with administrative privileges.
     ```batch
         pip install pysrt
     ```
