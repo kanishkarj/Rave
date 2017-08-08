@@ -53,6 +53,10 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.connectControllers()
 
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.window.subtitle.setFont(font)
+
     def resizeEvent(self, event):
         self.resized.emit()
         return super(VlcPlayer, self).resizeEvent(event)
@@ -64,9 +68,9 @@ class VlcPlayer(QtGui.QMainWindow):
         if self.isFullScreen() == False:
             self.window.mediaView.setGeometry(QtCore.QRect(0, 0, self.width(), self.height()-25-cvHeight))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height(), self.width(), cvHeight))
-            self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-(cvHeight+100), self.width()-40, 60))
+            self.window.subtitle.setGeometry(QtCore.QRect(0, self.window.mediaView.height()-25, self.width(), 25))
         else :
-            self.window.subtitle.setGeometry(QtCore.QRect(20, self.height()-100, self.width()-40, 60))
+            self.window.subtitle.setGeometry(QtCore.QRect(0, self.window.mediaView.height()-25, self.width(), 25))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height()-cvHeight, self.width(), cvHeight))
 
 

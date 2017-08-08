@@ -50,14 +50,14 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>hello</string>
+     <string></string>
     </property>
    </widget>
    <widget class="QWidget" name="controlView" native="true">

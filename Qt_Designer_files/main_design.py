@@ -38,9 +38,10 @@ class Ui_MainWindow(object):
         self.subtitle = QtGui.QLabel(self.centralwidget)
         self.subtitle.setGeometry(QtCore.QRect(250, 240, 261, 17))
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(12)
         self.subtitle.setFont(font)
         self.subtitle.setStyleSheet(_fromUtf8("color:white;"))
+        self.subtitle.setText(_fromUtf8(""))
         self.subtitle.setObjectName(_fromUtf8("subtitle"))
         self.controlView = QtGui.QWidget(self.centralwidget)
         self.controlView.setGeometry(QtCore.QRect(30, 270, 661, 130))
@@ -268,7 +269,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.subtitle.setText(_translate("MainWindow", "hello", None))
         self.timeDone.setText(_translate("MainWindow", "00:00:00", None))
         self.timeLeft.setText(_translate("MainWindow", "00:00:00", None))
         self.muteButton.setToolTip(_translate("MainWindow", "volume", None))
