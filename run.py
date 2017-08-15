@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+#!/usr/local/bin/python
+#!/usr/bin/env python
+
 import sys
 import os.path
 from packages.libvlc import vlc

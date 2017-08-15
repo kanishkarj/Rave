@@ -11,15 +11,15 @@ class Playlist(QtGui.QDialog):
         self.window.setupUi(self)
         self.mediaList=vlc.Instance().media_list_new()
 
-        self.window.listAdd.setIcon(QtGui.QIcon('icons/svg/IconSet2/addMedia.svg'))
+        self.window.listAdd.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/addMedia.svg')))
         self.window.listAdd.setIconSize(QtCore.QSize(40,40))
         self.window.listAdd.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
-        self.window.listRemove.setIcon(QtGui.QIcon('icons/svg/IconSet2/removeMedia.svg'))
+        self.window.listRemove.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/removeMedia.svg')))
         self.window.listRemove.setIconSize(QtCore.QSize(30,30))
         self.window.listRemove.setStyleSheet ('background-color:transparent; border-radius:5em;')
 
-        self.window.listRearrange.setIcon(QtGui.QIcon('icons/svg/IconSet2/rearrange.svg'))
+        self.window.listRearrange.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/rearrange.svg')))
         self.window.listRearrange.setIconSize(QtCore.QSize(30,30))
         self.window.listRearrange.setStyleSheet ('background-color:transparent; border-radius:5em;')
         
@@ -55,19 +55,19 @@ class Playlist(QtGui.QDialog):
         item=self.mediaToItem(media)
         for i in range(self.window.mediaList.count()):
             if item==self.window.mediaList.item(i):
-                self.window.mediaList.item(i).setIcon(QtGui.QIcon('icons/svg/IconSet2/nowPlaying.svg'))
+                self.window.mediaList.item(i).setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/nowPlaying.svg')))
             else:
                 self.window.mediaList.item(i).setIcon(QtGui.QIcon(''))
     
     def rearrangePlaylist(self):
         if self.window.mediaList.dragDropMode()!= QtGui.QAbstractItemView.InternalMove:
             self.window.mediaList.setDragDropMode(QtGui.QAbstractItemView.InternalMove)
-            self.window.listRearrange.setIcon(QtGui.QIcon('icons/svg/IconSet2/done.svg'))
+            self.window.listRearrange.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/done.svg')))
             self.window.listRearrange.setIconSize(QtCore.QSize(30,30))
             self.window.listRearrange.setStyleSheet ('background-color:transparent;')
         else:
             self.window.mediaList.setDragDropMode(QtGui.QAbstractItemView.NoDragDrop)
-            self.window.listRearrange.setIcon(QtGui.QIcon('icons/svg/IconSet2/rearrange.svg'))
+            self.window.listRearrange.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/rearrange.svg')))
             self.window.listRearrange.setIconSize(QtCore.QSize(30,30))
             self.window.listRearrange.setStyleSheet ('background-color:transparent;')
             mList=vlc.Instance().media_list_new()
