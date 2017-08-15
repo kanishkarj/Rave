@@ -1,9 +1,9 @@
+sudo pacman install yaourt;
 yaourt -S git python3 python-pyqt4 python-pip;
 sudo pip install pysrt;
-sudo git clone https://github.com/kanishkarj/Rave.git /opt/rave
+sudo git clone https://github.com/kanishkarj/Rave.git /opt/rave/
 
-sudo chmod +x /opt/rave/run.py
-sudo chmod -r /opt/rave/run.py
+sudo chmod -R 777 /opt/rave/
 
 sudo ln -s /opt/rave/run.py /bin/rave
 
