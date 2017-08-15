@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Rave        
+Comment=Cross Platform media player built on pyQt and libvlc.
+Exec=rave
+Icon=video
+Terminal=false
+Type=Application
+Categories=Application;
