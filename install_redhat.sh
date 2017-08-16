@@ -1,4 +1,4 @@
-sudo dnf install git python3 python-pyqt4 python-pip;
+sudo dnf install git python3 python3-pyqt4 python-pip;
 sudo pip install pysrt;
 sudo git clone https://github.com/kanishkarj/Rave.git /opt/rave/
 

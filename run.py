@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-#!/usr/local/bin/python
-#!/usr/bin/env python
+
 ''' import all modules and run media player '''
 import sys
 import os.path

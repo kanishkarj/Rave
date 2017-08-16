@@ -6,7 +6,16 @@ Media Player built on `python`, [`libvlc.py`](https://wiki.videolan.org/python_b
 - [ptqt4](https://pypi.python.org/pypi/PyQt4)
 - [pysrt](https://pypi.python.org/pypi/pysrt)
 
-## Installation instructions
+## Installation
+For linux installation can be done by run install script for corresponding distro.
+- For Debian based systems execute install script as follows (first give premission) :
+    ```bash
+        $ chmod +x install_debian.sh
+        $ ./install_debian.sh
+    ```
+- Similarly install script can be run for other distros.
+  
+## Build instructions
 Before building the project ensure that the required packages are installed. Installation instructions for each of them are given below :
 - **python 3 :**
     - *[Windows](https://www.python.org/downloads/release/python-362)*

@@ -1,5 +1,5 @@
-sudo apt-get install git python3 python-pyqt4 python-pip;
-sudo pip install pysrt;
+sudo apt-get install git python3 python3-pyqt4 python3-pysrt;
+
 sudo git clone https://github.com/kanishkarj/Rave.git /opt/rave/
 
 sudo chmod -R 777 /opt/rave/
