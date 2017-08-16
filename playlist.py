@@ -1,15 +1,19 @@
+'''code for playlist functionalities. 
+The VlcPlayer.py contains mediaPlayer instance and media instance 
+which is connected to medialist here'''
+
 import sys
 import os.path
 from packages.libvlc import vlc
 from PyQt4 import QtCore, QtGui
-from Qt_Designer_files.playlist_design import Ui_playlist
+from Qt_Designer_files.playlist_design import Ui_playlist #import playlist UI
 
 class Playlist(QtGui.QDialog):
     def __init__(self):
         super(Playlist,self).__init__()
         self.window=Ui_playlist()
         self.window.setupUi(self)
-        self.mediaList=vlc.Instance().media_list_new()
+        self.mediaList=vlc.Instance().media_list_new() #create medialist instance
 
         self.window.listAdd.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/addMedia.svg')))
         self.window.listAdd.setIconSize(QtCore.QSize(40,40))
@@ -25,12 +29,14 @@ class Playlist(QtGui.QDialog):
         
         self.window.mediaList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.connect(self.window.listRearrange,QtCore.SIGNAL("clicked()"),self.rearrangePlaylist)
-        
+
+    #Add single item to medialist    
     def setSingleFile(self,filename):
         self.mediaList.add_media(filename)
-        self.updatePlaylistUi()
+        self.updatePlaylistUi() 
         return self.mediaList[len(self.mediaList)-1]
 
+    #add multiple items to medialist
     def setMultipleFiles(self,filenames):
         for file in filenames:
             self.mediaList.add_media(file)
@@ -46,11 +52,13 @@ class Playlist(QtGui.QDialog):
         i=self.mediaList.index_of_item(media)
         return self.window.mediaList.item(i)
 
+    #show medialist items in playlist UI window 
     def updatePlaylistUi(self):
         self.window.mediaList.clear()
         for media in self.mediaList:
            self.window.mediaList.addItem(media.get_meta(0))
-        
+
+    #show playing icon against cuurently playing item 
     def setNowPlaying(self,media):
         item=self.mediaToItem(media)
         for i in range(self.window.mediaList.count()):
@@ -59,6 +67,7 @@ class Playlist(QtGui.QDialog):
             else:
                 self.window.mediaList.item(i).setIcon(QtGui.QIcon(''))
     
+    #rearrange playlist and medialist using drag and drop
     def rearrangePlaylist(self):
         if self.window.mediaList.dragDropMode()!= QtGui.QAbstractItemView.InternalMove:
             self.window.mediaList.setDragDropMode(QtGui.QAbstractItemView.InternalMove)

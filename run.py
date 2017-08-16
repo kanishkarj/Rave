@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #!/usr/local/bin/python
 #!/usr/bin/env python
-
+''' import all modules and run media player '''
 import sys
 import os.path
 from packages.libvlc import vlc
@@ -13,6 +13,6 @@ from VlcPlayer import VlcPlayer
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    w = VlcPlayer(app)
+    w = VlcPlayer(app) #create VlcPlayer instance
     w.show()
     sys.exit(app.exec_())

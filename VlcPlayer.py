@@ -1,3 +1,4 @@
+''' code to create VlcPlayer class '''
 import sys
 import os.path
 import os
@@ -15,15 +16,15 @@ class VlcPlayer(QtGui.QMainWindow):
 
     def  __init__(self,param_app, parent=None):
         super(VlcPlayer, self).__init__(parent=parent)
-        self.window = Ui_MainWindow()
-        self.window.setupUi(self)
+        self.window = Ui_MainWindow() # create media player UI
+        self.window.setupUi(self) 
         
         self.resized.connect(self.windowResized)
          # creating a basic vlc instance
         self.vlcInstance = vlc.Instance()
         # creating an empty vlc media player
         self.mediaPlayer = self.vlcInstance.media_player_new()
-        self.playlist = Playlist()
+        self.playlist = Playlist() # create Playlist instance
         self.timer = QtCore.QTimer()
         self.timer.setInterval(200)
         self.isPaused = False
@@ -39,7 +40,6 @@ class VlcPlayer(QtGui.QMainWindow):
         self.dialog.window.reset.setStyleSheet('background-color:transparent;border-radius:5em;')
 
         self.app = param_app
-        #self.window.centralwidget.setMouseTracking(True)
         self.window.volumeBar.setValue(50)
         self.setVolume(50)
 
@@ -74,9 +74,8 @@ class VlcPlayer(QtGui.QMainWindow):
             self.window.subtitle.setGeometry(QtCore.QRect(0, self.window.mediaView.height()-25, self.width(), 25))
             self.window.controlView.setGeometry(QtCore.QRect(0,self.window.mediaView.height()-cvHeight, self.width(), cvHeight))
 
-
+    # functions are connected with corresponding buttons of UI 
     def connectControllers(self):
-
         self.connect(self.window.actionOpen_File, QtCore.SIGNAL("triggered()"), self.OpenFile)
         self.connect(self.window.actionOpen_Multiple_Files, QtCore.SIGNAL("triggered()"), self.OpenMultipleFiles)
         self.connect(self.window.actionExit, QtCore.SIGNAL("triggered()"), sys.exit)
@@ -110,6 +109,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.connect(self.window.actionShift_forward_by_1_second,QtCore.SIGNAL("triggered()"),lambda : self.subs.shift(milliseconds=1000))
         self.connect(self.window.actionShift_backward_by_1_second,QtCore.SIGNAL("triggered()"),lambda : self.subs.shift(milliseconds=-1000))
 
+    # shortcuts for media player
     def keyPressEvent(self,event):
         if self.isFullScreen() and event.key()==QtCore.Qt.Key_Escape:
             self.showMaximized()
@@ -133,7 +133,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.showFullScreen()
             self.window.controlView.hide()
             self.window.menubar.hide()
-            scr_res = self.app.desktop().screenGeometry();
+            scr_res = self.app.desktop().screenGeometry()
             self.window.mediaView.setGeometry(QtCore.QRect(0, 0, scr_res.width(), scr_res.height()))
         else:
             self.showMaximized()
@@ -146,20 +146,25 @@ class VlcPlayer(QtGui.QMainWindow):
         self.hoverTimer.stop()
 
     def eventFilter(self,source,event):
+        # event filters for different objects
+        # filter for sensing hovering when fullscreen
         if event.type() == QtCore.QEvent.MouseMove and self.isFullScreen() and source==self.window.mediaView:
             self.window.controlView.show()
             self.hoverTimer.start()
             return 0
+        # filter for jumping seekbar to certain position on click
         elif event.type() == QtCore.QEvent.MouseButtonPress and source==self.window.seekBar:
             self.window.seekBar.setValue(event.x() * 1000 / self.window.seekBar.width())
             self.setSeekPosition(event.x() * 1000 / self.window.seekBar.width())
             return 0
+        # filter for jumping volumebar to certain position on click
         elif event.type() == QtCore.QEvent.MouseButtonPress and source==self.window.volumeBar :
             self.window.volumeBar.setValue(event.x() * 100 / self.window.volumeBar.width())
             return 0
         else:
             return 0
-
+    
+    # play next media from medialist
     def setNext(self) :
         pos=self.playlist.mediaList.index_of_item(self.mediaPlayer.get_media())
         if pos!= self.playlist.mediaList.count()-1 and self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
@@ -167,7 +172,8 @@ class VlcPlayer(QtGui.QMainWindow):
             self.setMedia(self.media)
         else:
             return
-
+    
+    # play previous media from medialist
     def setPrevious(self) :
         pos=self.playlist.mediaList.index_of_item(self.mediaPlayer.get_media())
         if pos!= 0 and self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
@@ -175,7 +181,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.setMedia(self.media)
         else:
             return
-
+    
     def toggleFullscreen(self):
         if self.isFullScreen()==False:
             self.showFullScreen()
@@ -220,7 +226,7 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.window.seekBar.setMaximum(1000)
         self.window.volumeBar.setMaximum(100)
-        #self.window.volumeBar.setValue(self.mediaPlayer.audio_get_volume())
+    
         if sys.platform.startswith('linux'): # for Linux using the X Server
             self.mediaPlayer.set_xwindow(self.window.mediaView.winId())
         elif sys.platform == "win32": # for Windows
@@ -250,6 +256,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.mediaPlayer.audio_set_volume(volume*2)
         self.window.muteButton.setIconSize(QtCore.QSize(25,25))
         self.window.muteButton.setStyleSheet ('background-color:transparent; border-radius:5em;')
+        # change button icon according to volume level
         if volume==0:
             self.window.muteButton.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/volume-off.svg')))
         elif volume>0 and volume<=50:
@@ -258,6 +265,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.window.muteButton.setIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__),'icons/svg/IconSet2/volume-high.svg')))
 
     def setMedia(self,media):
+        # parse, set title, media, play state
         media.parse()
 
         self.setWindowTitle(media.get_meta(0))
@@ -274,6 +282,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setPlayPause()
         self.mediaPlayer.play()
 
+    # adds file to playlist and plays it 
     def OpenFile(self,filename = None):
         if filename is None:
             filename = QtGui.QFileDialog.getOpenFileName(self, "Open File", os.path.expanduser('~'))
@@ -284,7 +293,8 @@ class VlcPlayer(QtGui.QMainWindow):
 
         self.media=self.playlist.setSingleFile(filename)
         self.setMedia(self.media)
-
+    
+    # adds multiple media files to playlist and plays the last one 
     def OpenMultipleFiles(self,filenames = None):
         if filenames is None:
             filenames = QtGui.QFileDialog.getOpenFileNames(self, "Open File", os.path.expanduser('~'))
@@ -298,7 +308,6 @@ class VlcPlayer(QtGui.QMainWindow):
         self.setMedia(self.media)
 
     def stringTimeFormat(self, time):
-
         strng = "00:00:00"
 
         if time<0 :
@@ -323,6 +332,7 @@ class VlcPlayer(QtGui.QMainWindow):
         return strng
 
     def updateUI(self):
+        # runs every sec
         # setting the slider to the desired position
         self.window.seekBar.setValue(self.mediaPlayer.get_position() * 1000)
 
@@ -342,12 +352,14 @@ class VlcPlayer(QtGui.QMainWindow):
         if(self.subs):
             self.displaySubtitle()
 
+    # show playlist dialog
     def showPlaylist(self):
         self.playlist.show()
         self.playlist.connect(self.playlist.window.listAdd,QtCore.SIGNAL("clicked()"),self.addtoPlaylist)
         self.playlist.connect(self.playlist.window.listRemove,QtCore.SIGNAL("clicked()"),self.removeFromPlaylist)
         self.playlist.window.mediaList.itemDoubleClicked.connect(self.playMedia)
 
+    # just adds files to playlist. Doesn't play any file
     def addtoPlaylist(self,filenames=None):
         if filenames is None:
             filenames = QtGui.QFileDialog.getOpenFileNames(self, "Open File", os.path.expanduser('~'))
@@ -364,6 +376,7 @@ class VlcPlayer(QtGui.QMainWindow):
             self.playlist.setMultipleFiles(filenames)
             self.playlist.setNowPlaying(self.media)
 
+    # remove multiple files except currently playing
     def removeFromPlaylist(self):
         if self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
             items=self.playlist.window.mediaList.selectedItems()
@@ -377,6 +390,7 @@ class VlcPlayer(QtGui.QMainWindow):
         else:
             return
 
+    # connected to double click on item in playlist UI. Plays double clicked file.
     def playMedia(self,item):
         if self.playlist.window.mediaList.dragDropMode()!=QtGui.QAbstractItemView.InternalMove:
             self.media=self.playlist.itemToMedia(item)
@@ -394,6 +408,8 @@ class VlcPlayer(QtGui.QMainWindow):
         else:
             self.setVolume(50)
             self.window.volumeBar.setValue(50)
+
+    # following three functions are used to jump
     def jumpForward(self):
         self.mediaPlayer.set_time(self.mediaPlayer.get_time()+10000)
         self.updateUI()
@@ -424,6 +440,7 @@ class VlcPlayer(QtGui.QMainWindow):
         self.dialog.window.minutes.setValue(0)
         self.dialog.window.seconds.setValue(0)
 
+    # function to display subtitles
     def displaySubtitle(self):
             pos = int(self.media.get_duration() * self.mediaPlayer.get_position())
             hr = floor((pos/3600)/1000)
